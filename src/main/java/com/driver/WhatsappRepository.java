@@ -75,6 +75,8 @@ public class WhatsappRepository {
                     return  groupMessageMap.get(group).size();
                 }
                 else{
+
+
                     List<Message> m = new ArrayList<>();
                     m.add(message);
                     groupMessageMap.put(group, m);
@@ -104,24 +106,38 @@ public class WhatsappRepository {
 
     public int removeUser(User user) throws Exception{
         for(Group x:groupUserMap.keySet()) {
-            List<User> list = new ArrayList<>(groupUserMap.get(x));
-            for (User f : list) {
-                if (f.getMobile().equals(user.getMobile())) {
-                    if (adminMap.get(x).getMobile().equals(user.getMobile())) {
-                        throw new Exception("Cannot remove admin");
-                    } else {
-                        List<Message> m = new ArrayList<>(groupMessageMap.get(x));
-                        for (Message g : m) {
-                            if (senderMap.get(g).getMobile().equals(user.getMobile())) {
-                                m.remove(g);
-                                senderMap.remove(g);
-                            }
-                        }
-                        groupUserMap.get(x).remove(user);
-                        x.setNumberOfParticipants(x.getNumberOfParticipants() - 1);
-                        return groupUserMap.get(x).size() + groupMessageMap.get(x).size() + senderMap.size();
-                    }
+//            List<User> list = new ArrayList<>(groupUserMap.get(x));
+//            for (User f : list) {
+//                if (f.getMobile().equals(user.getMobile())) {
+//                    if (adminMap.get(x).getMobile().equals(user.getMobile())) {
+//                        throw new Exception("Cannot remove admin");
+//                    } else {
+//                        List<Message> m = new ArrayList<>(groupMessageMap.get(x));
+//                        for (Message g : m) {
+//                            if (senderMap.get(g).getMobile().equals(user.getMobile())) {
+//                                m.remove(g);
+//                                senderMap.remove(g);
+//                            }
+//                        }
+//                        groupUserMap.get(x).remove(user);
+//                        x.setNumberOfParticipants(x.getNumberOfParticipants() - 1);
+//                        return groupUserMap.get(x).size() + groupMessageMap.get(x).size() + senderMap.size();
+
+        if(groupUserMap.get(x).contains(user)){
+            if(adminMap.get(x).equals(user)) throw new Exception("Cannot remove admin");
+
+            groupUserMap.get(x).remove(user);
+            List<Message> messages = new ArrayList<>();
+            for(Message message:groupMessageMap.get(x)){
+                if(senderMap.get(message).equals(user)){
+                    senderMap.remove(message);
+
+        }
+                else messages.add(message);
+
                 }
+            groupMessageMap.put(x, messages);
+            return groupUserMap.get(x).size() + messages.size() + senderMap.size();
             }
         }
         throw new Exception("User not found");
