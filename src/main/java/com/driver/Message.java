@@ -13,6 +13,18 @@ public class Message {
         this.timestamp = new Date();
     }
 
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public void setTimestamp(Date timestamp) {
+        this.timestamp = timestamp;
+    }
+
     public int getId() {
         return id;
     }
