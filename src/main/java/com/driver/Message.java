@@ -21,9 +21,9 @@ public class Message {
         this.content = content;
     }
 
-    public void setTimestamp(Date timestamp) {
-        this.timestamp = timestamp;
-    }
+//    public void setTimestamp(Date timestamp) {
+//        this.timestamp = timestamp;
+//    }
 
     public int getId() {
         return id;
